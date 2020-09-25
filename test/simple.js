@@ -9,9 +9,9 @@ test('reject non-functions as leaves', t =>{
 })
 
 test('reject invalid tyoes', t =>{
-  t.throws( ()=>{
+  t.doesNotThrow( ()=>{
     wrapAPI({x: ()=>{}}, {}, ()=>{})
-  }, /invalid type/, 'throws when not in manifest')
+  }, 'does not throw when not in manifest')
   t.throws( ()=>{
     wrapAPI({x: ()=>{}}, {x: 'xxx'}, ()=>{})
   }, /invalid type/, 'throws when unknown type in manifest')
@@ -41,21 +41,27 @@ test('calls wrap with correct args', t=>{
   function e() {}
 
   const calls = []
-  const ret = wrapAPI({
+  const api = {
     a,
     b,
     c,
     d,
     e
-  }, {
+  }
+  const manifest = {
     a: 'sync',
     b: 'async',
     c: 'source',
     d: 'sink',
     e: 'duplex'
-  }, function() {
+  }
+  const api2 = Object.assign({}, api)
+  const manifest2 = Object.assign({}, manifest)
+  const ret = wrapAPI(api, manifest, function() {
     calls.push(Array.from(arguments))
   })
+  t.deepEqual(api, api2, 'argument1 was not modified')
+  t.deepEqual(manifest, manifest2, 'argument2 was not modified')
   t.deepEqual(calls, [
     [a, 'sync', ['a']],
     [b, 'async', ['b']],
