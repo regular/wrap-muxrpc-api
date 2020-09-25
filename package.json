@@ -1,6 +1,6 @@
 {
   "name": "wrap-muxrpc-api",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "wrap functions of a muxrpc API with a custom wrapper. Useful with pull-reconnect",
   "main": "index.js",
   "scripts": {
