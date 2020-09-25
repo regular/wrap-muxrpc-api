@@ -33,6 +33,13 @@ test('reject invalid tyoes', t =>{
   t.end()
 })
 
+test.only('empty objects in manifest are okay', t =>{
+  t.doesNotThrow( ()=>{
+    wrapAPI({x: ()=>{}}, {x: 'sync', y: {}}, ()=>{})
+  }, 'empty objects in manifest dont throw')
+  t.end()
+})
+
 test('calls wrap with correct args', t=>{
   function a() {}
   function b() {}
